@@ -115,9 +115,8 @@ public class Main {
         if (isRomeNumSystem) {
             if (res < 0) {
                 throw new ScannerException("В римской системе нет отрицательных чисел!");
-            } else {
-                return getRomeFromArabic(res);
             }
+            return getRomeFromArabic(res);
         } else {
             return String.valueOf(res);
         }
