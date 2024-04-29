@@ -1,11 +1,10 @@
 package ru.kata.calculator;
 
-import org.yaml.snakeyaml.scanner.*;
-
-import java.util.*;
 import java.util.Scanner;
 
 public class Main {
+
+    public static boolean isRomeNumSystem;
 
     public static boolean isNumeric(String str) throws ScannerException {
         boolean res = false;
@@ -24,22 +23,56 @@ public class Main {
         return res;
     }
 
-    public static boolean isNumRome(String str) throws ScannerException {
+    public static boolean isNumRome(String str) {
         boolean res = false;
-        for(NumRome numRome : NumRome.values()) {
-            if (numRome.getNumber().equals(str)) {
+        for (NumRome numRome : NumRome.values()) {
+            if (numRome.name().equals(str)) {
                 res = true;
             }
         }
         return res;
     }
 
-    public static void checkStringLength(String [] parts) throws ScannerException {
+    public static int getArabicFromRome(String str) {
+        int res = 0;
+        for (NumRome numRome : NumRome.values()) {
+            if (numRome.name().equals(str)) {
+                res = numRome.getNumber();
+            }
+        }
+        return res;
+    }
+
+    public static String getRomeFromArabic(int num) {
+        String res = "";
+        for (NumRome numRome : NumRome.values()) {
+            if (numRome.getNumber() == num) {
+                res = numRome.name();
+            }
+        }
+        return res;
+    }
+
+    public static void checkStringLength(String[] parts) throws ScannerException {
         if (parts.length < 3) {
             throw new ScannerException("Слишком мало значений! Строка не является математической операцией! ");
         }
         if (parts.length > 3) {
             throw new ScannerException("Слишком много значений!");
+        }
+    }
+
+    public static void checkNumericSystem(String[] parts) throws ScannerException {
+        if (isNumeric(parts[0]) && isNumRome(parts[2])) {
+            throw new ScannerException("Разные системы счисления!");
+        }
+        if (isNumRome(parts[0]) && isNumeric(parts[2])) {
+            throw new ScannerException("Разные системы счисления!");
+        }
+        if (isNumRome(parts[0]) && isNumRome(parts[2])) {
+            isRomeNumSystem = true;
+        } else {
+            isRomeNumSystem = false;
         }
     }
 
@@ -50,11 +83,14 @@ public class Main {
         char operation = ' ';
         String [] parts = input.split(" ");
         checkStringLength(parts);
+        checkNumericSystem(parts);
         for (int j = 0; j < 3; j++) {
             String part = parts[j];
             if (j == 0 || j == 2) {
                 if (isNumeric(part)) {
                     nums[i++] = Integer.parseInt(part);
+                } else if (isNumRome(part)) {
+                    nums[i++] = getArabicFromRome(part);
                 } else {
                     throw new ScannerException("Не правильное число!");
                 }
@@ -75,7 +111,16 @@ public class Main {
             case '*': res = nums[0] * nums[1]; break;
             case '/': res = nums[0] / nums[1]; break;
         }
-        return String.valueOf(res);
+
+        if (isRomeNumSystem) {
+            if (res < 0) {
+                throw new ScannerException("В римской системе нет отрицательных чисел!");
+            } else {
+                return getRomeFromArabic(res);
+            }
+        } else {
+            return String.valueOf(res);
+        }
     }
 
     public static void main(String[] args) throws ScannerException {
@@ -88,4 +133,5 @@ public class Main {
             System.out.println(e);
         }
     }
+
 }

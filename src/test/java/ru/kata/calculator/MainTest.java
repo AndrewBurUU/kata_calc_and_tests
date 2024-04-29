@@ -8,13 +8,6 @@ import static org.junit.Assert.*;
 
 public class MainTest {
 
-    @Test
-    public void whenOnePlusOneThenOk() throws ScannerException {
-        String in = "1 + 1";
-        String expected = "2";
-        assertThat(Main.calc(in), is(expected));
-    }
-
     @Test(expected = ScannerException.class)
     public void whenIncorrectFormulaThenFail() throws ScannerException {
         Main.calc("1");
@@ -31,12 +24,36 @@ public class MainTest {
         Main.calc("1,5 + 1");
         Main.calc("1 + 1.5");
         Main.calc("1;5 + 1");
+        Main.calc("I + 1");
+        Main.calc("1 + I");
+        Main.calc("I + IV + X");
+        Main.calc("I - IV");
     }
 
     @Test
-    public void whenRomeNumThenTrue() throws ScannerException {
+    public void whenOnePlusOneThenOk() throws ScannerException {
+        String in = "1 + 1";
+        String expected = "2";
+        assertThat(Main.calc(in), is(expected));
+    }
+
+    @Test
+    public void whenRomeNumThenTrue() {
         String in = "I";
         assertTrue(Main.isNumRome(in));
     }
 
+    @Test
+    public void whenGetRomeNumThenOk() {
+        String in = "IV";
+        int expected = 4;
+        assertThat(Main.getArabicFromRome(in), is(expected));
+    }
+
+    @Test
+    public void whenRomeOnePlusOneThenTwoRome() throws ScannerException {
+        String in = "I + II";
+        String expected = "III";
+        assertThat(Main.calc(in), is(expected));
+    }
 }
