@@ -24,6 +24,16 @@ public class Main {
         return res;
     }
 
+    public static boolean isNumRome(String str) throws ScannerException {
+        boolean res = false;
+        for(NumRome numRome : NumRome.values()) {
+            if (numRome.getNumber().equals(str)) {
+                res = true;
+            }
+        }
+        return res;
+    }
+
     public static void checkStringLength(String [] parts) throws ScannerException {
         if (parts.length < 3) {
             throw new ScannerException("Слишком мало значений! Строка не является математической операцией! ");

@@ -33,4 +33,10 @@ public class MainTest {
         Main.calc("1;5 + 1");
     }
 
+    @Test
+    public void whenRomeNumThenTrue() throws ScannerException {
+        String in = "I";
+        assertTrue(Main.isNumRome(in));
+    }
+
 }
