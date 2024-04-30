@@ -16,6 +16,9 @@ public class MainTest {
         Main.calc("11 + 2");
         Main.calc("1 + 11");
         Main.calc("1 1 1");
+        Main.calc("11 1");
+        Main.calc("111");
+        Main.calc("1+11");
         Main.calc("/");
         Main.calc("а + б");
         Main.calc("a + b");
@@ -29,6 +32,8 @@ public class MainTest {
         Main.calc("I + IV + X");
         Main.calc("I - IV");
         Main.calc("XI - IV");
+        Main.calc("X- IV");
+        Main.calc("X-IV");
     }
 
     @Test
@@ -62,6 +67,27 @@ public class MainTest {
     public void whenRomeTenPlusOneThenElevenRome() throws ScannerException {
         String in = "X + I";
         String expected = "XI";
+        assertThat(Main.calc(in), is(expected));
+    }
+
+    @Test
+    public void whenRomeTenMyltiplyTenThenRomeC() throws ScannerException {
+        String in = "X * X";
+        String expected = "C";
+        assertThat(Main.calc(in), is(expected));
+    }
+
+    @Test
+    public void whenRomeTenMyltiplyFiveThenRomeL() throws ScannerException {
+        String in = "X * V";
+        String expected = "L";
+        assertThat(Main.calc(in), is(expected));
+    }
+
+    @Test
+    public void whenRomeNineMyltiplyEightThenRome72() throws ScannerException {
+        String in = "IX * VIII";
+        String expected = "LXXII";
         assertThat(Main.calc(in), is(expected));
     }
 
