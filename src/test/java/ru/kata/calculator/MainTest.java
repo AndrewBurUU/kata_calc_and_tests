@@ -28,6 +28,7 @@ public class MainTest {
         Main.calc("1 + I");
         Main.calc("I + IV + X");
         Main.calc("I - IV");
+        Main.calc("XI - IV");
     }
 
     @Test
@@ -47,7 +48,7 @@ public class MainTest {
     public void whenGetRomeNumThenOk() {
         String in = "IV";
         int expected = 4;
-        assertThat(Main.getArabicFromRome(in), is(expected));
+        assertThat(Main.convertToArabic(in), is(expected));
     }
 
     @Test
@@ -56,4 +57,12 @@ public class MainTest {
         String expected = "III";
         assertThat(Main.calc(in), is(expected));
     }
+
+    @Test
+    public void whenRomeTenPlusOneThenElevenRome() throws ScannerException {
+        String in = "X + I";
+        String expected = "XI";
+        assertThat(Main.calc(in), is(expected));
+    }
+
 }

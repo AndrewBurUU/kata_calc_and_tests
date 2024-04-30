@@ -33,24 +33,35 @@ public class Main {
         return res;
     }
 
-    public static int getArabicFromRome(String str) {
+    public static int convertToArabic(String romanNumber) {
         int res = 0;
-        for (NumRome numRome : NumRome.values()) {
-            if (numRome.name().equals(str)) {
-                res = numRome.getNumber();
+        int i = 0;
+        while (i < romanNumber.length()) {
+            String s = romanNumber.substring(i,i + 1);
+            int numArab = RomeNumbers.valueOf(s).getNumber();
+            if (numArab == 5 || numArab == 10 && res > 0) {
+                res = numArab - res;
+            } else {
+                res += numArab;
             }
+            i++;
         }
         return res;
     }
 
-    public static String getRomeFromArabic(int num) {
-        String res = "";
-        for (NumRome numRome : NumRome.values()) {
-            if (numRome.getNumber() == num) {
-                res = numRome.name();
+    public static String convertToRoman(int number) {
+        StringBuilder romanNumber = new StringBuilder();
+        int i = RomeNumbers.values().length - 1;
+        while (number > 0) {
+            if (number >= RomeNumbers.values()[i].getNumber()) {
+                romanNumber.append(RomeNumbers.values()[i].name());
+                number -= RomeNumbers.values()[i].getNumber();
+            } else {
+                i--;
             }
         }
-        return res;
+
+        return romanNumber.toString();
     }
 
     public static void checkStringLength(String[] parts) throws ScannerException {
@@ -90,7 +101,7 @@ public class Main {
                 if (isNumeric(part)) {
                     nums[i++] = Integer.parseInt(part);
                 } else if (isNumRome(part)) {
-                    nums[i++] = getArabicFromRome(part);
+                    nums[i++] = convertToArabic(part);
                 } else {
                     throw new ScannerException("Не правильное число!");
                 }
@@ -116,7 +127,7 @@ public class Main {
             if (res < 0) {
                 throw new ScannerException("В римской системе нет отрицательных чисел!");
             }
-            return getRomeFromArabic(res);
+            return convertToRoman(res);
         } else {
             return String.valueOf(res);
         }
@@ -132,5 +143,4 @@ public class Main {
             System.out.println(e);
         }
     }
-
 }
