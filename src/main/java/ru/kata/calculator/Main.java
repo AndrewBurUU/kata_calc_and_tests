@@ -6,6 +6,8 @@ public class Main {
 
     public static final int COUNT_ELEMENTS = 3;
 
+    public static final int MAX_NUMBER = 10;
+
     public static boolean isRomeNumSystem;
 
     public static boolean isNumeric(String str) throws ScannerException {
@@ -14,7 +16,7 @@ public class Main {
             throw new ScannerException("Дробное число!");
         } else {
             try {
-                if (Integer.parseInt(str) > 10) {
+                if (Integer.parseInt(str) > MAX_NUMBER) {
                     throw new ScannerException("Число должно быть в диапазоне от 1 до 10 включительно.");
                 } else {
                     res = true;
@@ -40,7 +42,6 @@ public class Main {
             }
         }
         return true;
-
     }
 
     public static int convertToArabic(String romanNumber) {
@@ -73,28 +74,33 @@ public class Main {
         return romanNumber.toString();
     }
 
-    public static void checkStringLength(String[] parts) throws ScannerException {
-        if (parts.length < COUNT_ELEMENTS) {
+    public static void checkStringLength(String[] elements) throws ScannerException {
+        if (elements.length < COUNT_ELEMENTS) {
             throw new ScannerException("Слишком мало значений! Строка не является математической операцией! ");
         }
-        if (parts.length > COUNT_ELEMENTS) {
+        if (elements.length > COUNT_ELEMENTS) {
             throw new ScannerException("Слишком много значений!");
         }
     }
 
-    public static void checkNumericSystem(String[] parts) throws ScannerException {
-        if (isNumeric(parts[0]) && isNumRome(parts[2])) {
-            throw new ScannerException("Разные системы счисления!");
+    public static void checkNumericSystem(String[] elements) throws ScannerException {
+        boolean isArab = false;
+        boolean isRome = false;
+        for (int i = 0; i < elements.length; i++) {
+            if (i % 2 == 0){
+                if (isNumeric(elements[i])) {
+                    isArab = true;
+                } else {
+                    isRome = true;
+                }
+            }
         }
-        if (isNumRome(parts[0]) && isNumeric(parts[2])) {
-            throw new ScannerException("Разные системы счисления!");
+        if (isArab && isRome) {
+            throw new ScannerException("Разные системы счисления!");            
         }
-        if (isNumRome(parts[0]) && isNumRome(parts[2])) {
-            isRomeNumSystem = true;
-        } else {
-            isRomeNumSystem = false;
-        }
+        isRomeNumSystem = isRome ? true : false;
     }
+
 
     public static String calc(String input) throws ScannerException {
         int[] nums = new int[COUNT_ELEMENTS - 1]; // массив чисел
