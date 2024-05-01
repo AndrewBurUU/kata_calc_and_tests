@@ -24,13 +24,21 @@ public class Main {
     }
 
     public static boolean isNumRome(String str) {
-        boolean res = false;
-        for (NumRome numRome : NumRome.values()) {
-            if (numRome.name().equals(str)) {
-                res = true;
+        for (int i = 0; i < str.length(); i++) {
+            boolean elementExists = false;
+            String s = str.substring(i, i + 1);
+            for (RomeNumbers romeNum : RomeNumbers.values()) {
+                if (romeNum.name().equals(s)) {
+                    elementExists = true;
+                    break;
+                }
+            }
+            if (!elementExists) {
+                return false;
             }
         }
-        return res;
+        return true;
+
     }
 
     public static int convertToArabic(String romanNumber) {
@@ -60,7 +68,6 @@ public class Main {
                 i--;
             }
         }
-
         return romanNumber.toString();
     }
 
@@ -122,7 +129,6 @@ public class Main {
             case '*': res = nums[0] * nums[1]; break;
             case '/': res = nums[0] / nums[1]; break;
         }
-
         if (isRomeNumSystem) {
             if (res < 0) {
                 throw new ScannerException("В римской системе нет отрицательных чисел!");
