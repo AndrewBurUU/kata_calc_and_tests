@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 public class Main {
 
+    public static final int COUNT_ELEMENTS = 3;
+
     public static boolean isRomeNumSystem;
 
     public static boolean isNumeric(String str) throws ScannerException {
@@ -72,10 +74,10 @@ public class Main {
     }
 
     public static void checkStringLength(String[] parts) throws ScannerException {
-        if (parts.length < 3) {
+        if (parts.length < COUNT_ELEMENTS) {
             throw new ScannerException("Слишком мало значений! Строка не является математической операцией! ");
         }
-        if (parts.length > 3) {
+        if (parts.length > COUNT_ELEMENTS) {
             throw new ScannerException("Слишком много значений!");
         }
     }
@@ -95,29 +97,35 @@ public class Main {
     }
 
     public static String calc(String input) throws ScannerException {
-        String accepted = "-+*/";
-        int[] nums = new int[2];
-        int i = 0;
+        int[] nums = new int[COUNT_ELEMENTS - 1]; // массив чисел
+        int indexNum = 0; // индекс массива чисел
+
+        String accepted = "-+*/"; // строка со списком возможных операций над числами
+        String[] operations = new String[COUNT_ELEMENTS - 2]; // массив операций
+        int indexOper = 0; // индекс массива операций
         char operation = ' ';
-        String [] parts = input.split(" ");
-        checkStringLength(parts);
-        checkNumericSystem(parts);
-        for (int j = 0; j < 3; j++) {
-            String part = parts[j];
-            if (j == 0 || j == 2) {
-                if (isNumeric(part)) {
-                    nums[i++] = Integer.parseInt(part);
-                } else if (isNumRome(part)) {
-                    nums[i++] = convertToArabic(part);
+
+        String[] elements = input.split(" "); // получить массив из строки с выражением
+        checkStringLength(elements);
+        checkNumericSystem(elements);
+        for (int indexElement = 0; indexElement < elements.length; indexElement++) {
+            String element = elements[indexElement];
+            // четный индекс массива - число, нечетный - операция
+            if (indexElement % 2 == 0) {
+                if (isNumeric(element)) {
+                    nums[indexNum++] = Integer.parseInt(element);
+                } else if (isNumRome(element)) {
+                    nums[indexNum++] = convertToArabic(element);
                 } else {
                     throw new ScannerException("Не правильное число!");
                 }
-            }
-            if (j == 1) {
-                if (part.length() == 1) {
-                    operation = part.charAt(0);
+            } else {
+                if (element.length() == 1) {
+                    operation = element.charAt(0);
                     if (accepted.indexOf(operation) < 0) {
                         throw new ScannerException("Не правильная операция!");
+                    } else {
+                        operations[indexOper++] = element;
                     }
                 }
             }
