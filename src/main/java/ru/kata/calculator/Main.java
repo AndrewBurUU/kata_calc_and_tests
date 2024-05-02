@@ -99,7 +99,7 @@ public class Main {
         if (isArab && isRome) {
             throw new ScannerException("Разные системы счисления!");            
         }
-        isRomeNumSystem = isRome ? true : false;
+        isRomeNumSystem = isRome;
     }
 
 
@@ -137,13 +137,13 @@ public class Main {
                 }
             }
         }
-        int res = 0;
-        switch (operation) {
-            case '+': res = nums[0] + nums[1]; break;
-            case '-': res = nums[0] - nums[1]; break;
-            case '*': res = nums[0] * nums[1]; break;
-            case '/': res = nums[0] / nums[1]; break;
-        }
+        int res = switch (operation) {
+            case '+' -> nums[0] + nums[1];
+            case '-' -> nums[0] - nums[1];
+            case '*' -> nums[0] * nums[1];
+            case '/' -> nums[0] / nums[1];
+            default -> 0;
+        };
         if (isRomeNumSystem) {
             if (res < 1) {
                 throw new ScannerException("В римской системе нет отрицательных чисел и нуля!");
@@ -154,7 +154,7 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) throws ScannerException {
+    public static void main(String[] args) {
         try {
             Scanner in = new Scanner(System.in);
             System.out.print("Введите выражение вида 'a операция b': ");
