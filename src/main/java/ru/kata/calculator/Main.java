@@ -4,11 +4,11 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static final int COUNT_ELEMENTS = 3;
+    public static final int COUNT_ELEMENTS = 3; //кол-во элементов в формуле
 
-    public static final int MAX_NUMBER = 10;
+    public static final int MAX_NUMBER = 10; //максимальное число, которое можно ввести
 
-    public static boolean isRomeNumSystem;
+    public static boolean isRomeNumSystem; //римская система счисления
 
     public static boolean isNumeric(String str) throws ScannerException {
         boolean res = false;
@@ -16,10 +16,11 @@ public class Main {
             throw new ScannerException("Дробное число!");
         } else {
             try {
-                if (Integer.parseInt(str) > MAX_NUMBER) {
-                    throw new ScannerException("Число должно быть в диапазоне от 1 до 10 включительно.");
-                } else {
+                if (Integer.parseInt(str) > 0 && Integer.parseInt(str) <= MAX_NUMBER) {
                     res = true;
+                } else {
+                    throw new ScannerException("Число должно быть в диапазоне от 1 до " +
+                            MAX_NUMBER + " включительно.");
                 }
             } catch (NumberFormatException e) {
             }
@@ -109,7 +110,7 @@ public class Main {
         String accepted = "-+*/"; // строка со списком возможных операций над числами
         String[] operations = new String[COUNT_ELEMENTS - 2]; // массив операций
         int indexOper = 0; // индекс массива операций
-        char operation = ' ';
+        char operation = ' '; // символ операции
 
         String[] elements = input.split(" "); // получить массив из строки с выражением
         checkStringLength(elements);
@@ -144,8 +145,8 @@ public class Main {
             case '/': res = nums[0] / nums[1]; break;
         }
         if (isRomeNumSystem) {
-            if (res < 0) {
-                throw new ScannerException("В римской системе нет отрицательных чисел!");
+            if (res < 1) {
+                throw new ScannerException("В римской системе нет отрицательных чисел и нуля!");
             }
             return convertToRoman(res);
         } else {

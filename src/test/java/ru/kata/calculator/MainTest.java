@@ -20,6 +20,8 @@ public class MainTest {
         Main.calc("111");
         Main.calc("1+11");
         Main.calc("/");
+        Main.calc("1 / 0");
+        Main.calc("I / 0");
         Main.calc("а + б");
         Main.calc("a + b");
         Main.calc("5а + 1");
@@ -32,6 +34,7 @@ public class MainTest {
         Main.calc("I + IV + X");
         Main.calc("I - IV");
         Main.calc("XI - IV");
+        Main.calc("X - X");
         Main.calc("X- IV");
         Main.calc("X-IV");
     }
